@@ -92,35 +92,61 @@ Run cells sequentially. Key steps:
 4. **Fine-tune** (Cell 6) - Uses MLX-VLM CLI
 5. **Evaluate** (Cell 8)
 
-### Training via CLI (Alternative)
+### Training via Python API (Recommended)
 
-You can also fine-tune directly from terminal:
+MLX-VLM 0.3.5 uses a Python API for training:
 
-```bash
-# Prepare data
-mlx_vlm.lora \
-  --model Qwen/Qwen2.5-VL-7B-Instruct \
-  --train \
-  --data train.jsonl \
-  --batch-size 1 \
-  --iters 300 \
-  --learning-rate 1e-5 \
-  --lora-layers 16 \
-  --adapter-file adapters.safetensors \
-  --val-data val.jsonl
+```python
+from mlx_vlm import load
+from mlx_vlm.trainer.trainer import Trainer, TrainingArgs
+from mlx_vlm.trainer.utils import build_dataset
+import mlx.optimizers as optim
 
-# Generate with fine-tuned model
-mlx_vlm.generate \
-  --model Qwen/Qwen2.5-VL-7B-Instruct \
-  --adapter-file adapters.safetensors \
-  --image path/to/image.jpg \
-  --prompt "Your question here"
+# Load model
+model, processor = load("Qwen/Qwen2.5-VL-7B-Instruct")
 
-# Fuse adapters into base model
-mlx_vlm.fuse \
-  --model Qwen/Qwen2.5-VL-7B-Instruct \
-  --adapter-file adapters.safetensors \
-  --save-path ./fused_model
+# Prepare datasets
+train_dataset = build_dataset("train.jsonl", "Qwen/Qwen2.5-VL-7B-Instruct", processor)
+val_dataset = build_dataset("val.jsonl", "Qwen/Qwen2.5-VL-7B-Instruct", processor)
+
+# Training configuration
+training_args = TrainingArgs(
+    batch_size=1,
+    iters=300,
+    steps_per_report=10,
+    steps_per_eval=50,
+    adapter_file="adapters.safetensors"
+)
+
+# Create optimizer and trainer
+optimizer = optim.Adam(learning_rate=1e-5)
+trainer = Trainer(model=model, optimizer=optimizer)
+
+# Train
+trainer.train(train_dataset, val_dataset, training_args)
+```
+
+### Generate with Fine-tuned Model
+
+```python
+from mlx_vlm import load, generate
+from PIL import Image
+
+# Load model with adapters
+model, processor = load(
+    "Qwen/Qwen2.5-VL-7B-Instruct",
+    adapter_path="adapters.safetensors"
+)
+
+# Generate
+image = Image.open("test.jpg")
+response = generate(
+    model,
+    processor,
+    "Your question here",
+    image,
+    max_tokens=128
+)
 ```
 
 ## Training Configuration
@@ -304,14 +330,18 @@ mlx_vlm.lora \
 
 ### Upload to Hugging Face
 
-After fusing:
+You can upload your adapters to Hugging Face Hub:
 
-```bash
-mlx_vlm.fuse \
-  --model Qwen/Qwen2.5-VL-7B-Instruct \
-  --adapter-file adapters.safetensors \
-  --save-path ./fused_model \
-  --upload-repo your-username/model-name  # Auto-upload
+```python
+from huggingface_hub import HfApi
+
+api = HfApi()
+api.upload_file(
+    path_or_fileobj="adapters.safetensors",
+    path_in_repo="adapters.safetensors",
+    repo_id="your-username/qwen2.5-vl-mathverse-lora",
+    repo_type="model"
+)
 ```
 
 ## Examples
