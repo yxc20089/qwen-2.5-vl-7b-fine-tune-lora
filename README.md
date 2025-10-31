@@ -1,13 +1,27 @@
 # Qwen2.5-VL-7B Fine-tuning on MathVerse Dataset
 
-This repository contains code to fine-tune the Qwen2.5-VL-7B-Instruct vision-language model on the MathVerse dataset using Unsloth for efficient training on Google Colab.
+This repository contains code to fine-tune the Qwen2.5-VL-7B-Instruct vision-language model on the MathVerse dataset.
+
+## 🚀 Quick Start
+
+**Choose your platform:**
+
+| Platform | Notebook | Setup Guide | Installation |
+|----------|----------|-------------|--------------|
+| **M4 MacBook (MLX)** ⭐ | `qwen2_5_vl_finetune_mlx_native.ipynb` | [README_MLX_NATIVE.md](README_MLX_NATIVE.md) | `bash setup_mlx.sh` |
+| **Google Colab** | `qwen2_5_vl_finetune.ipynb` | See below | Built into notebook |
+| **M4 MacBook (PyTorch)** | `qwen2_5_vl_finetune_mlx.ipynb` | [README_MLX.md](README_MLX.md) | Manual |
+
+📖 **[Complete Setup Guide](SETUP.md)** - Detailed instructions for all platforms with uv support
+
+---
 
 ## Overview
 
 - **Model**: Qwen2.5-VL-7B-Instruct (Vision-Language Model)
 - **Dataset**: MathVerse (Mathematical reasoning with visual diagrams)
-- **Framework**: Unsloth for efficient fine-tuning with LoRA
-- **Platform**: Google Colab (GPU required)
+- **Framework**: Unsloth (Colab) / MLX-VLM (macOS)
+- **Platform**: Google Colab (GPU) or macOS with Apple Silicon
 
 ## Files
 

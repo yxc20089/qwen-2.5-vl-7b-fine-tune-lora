@@ -1,0 +1,45 @@
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Generated data files
+train.jsonl
+val.jsonl
+*.safetensors
+adapters.npz
+
+# Model outputs
+qwen2.5-vl-mathverse-*/
+qwen2_5_vl_finetuned_mlx/
+fused_model/
+
+# Evaluation results
+evaluation_results*.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+wandb/
