@@ -45,9 +45,14 @@ source venv/bin/activate
 # Install MLX-VLM
 pip install mlx-vlm
 
+# Install PyTorch (required for Qwen2.5-VL processor)
+pip install torch torchvision
+
 # Install additional packages
 pip install pillow datasets scikit-learn tqdm
 ```
+
+**Note:** PyTorch and torchvision are required even though we use MLX for training. Qwen2.5-VL's processor uses PyTorch for image/video preprocessing, while the actual model inference and training run on MLX.
 
 ### 2. Verify Installation
 

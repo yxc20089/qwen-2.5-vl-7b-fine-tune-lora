@@ -78,7 +78,9 @@ python -c "import mlx.core as mx; print(f'MLX version: {mx.__version__}')"
 | Dependency resolution | Advanced | Basic |
 | Disk usage | Efficient caching | Redundant downloads |
 | ARM64 support | Native | Via wheel |
-| Installation time | ~10 seconds | ~2-3 minutes |
+| Installation time | ~15 seconds | ~3-4 minutes |
+
+**Note:** PyTorch and torchvision are required even for MLX, as Qwen2.5-VL's processor uses PyTorch for image/video preprocessing. The actual model inference runs on MLX.
 
 ---
 
