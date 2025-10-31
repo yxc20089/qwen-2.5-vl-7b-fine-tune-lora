@@ -11,6 +11,8 @@ ENV/
 # Generated data files
 train.jsonl
 val.jsonl
+train_mlx.jsonl
+val_mlx.jsonl
 *.safetensors
 adapters.npz
 
