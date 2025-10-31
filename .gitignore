@@ -15,6 +15,7 @@ train_mlx.jsonl
 val_mlx.jsonl
 *.safetensors
 adapters.npz
+checkpoint_*.safetensors
 
 # Model outputs
 qwen2.5-vl-mathverse-*/
