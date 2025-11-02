@@ -21,6 +21,7 @@ checkpoint_*.safetensors
 qwen2.5-vl-mathverse-*/
 qwen2_5_vl_finetuned_mlx/
 fused_model/
+adapters/
 
 # Evaluation results
 evaluation_results*.json
